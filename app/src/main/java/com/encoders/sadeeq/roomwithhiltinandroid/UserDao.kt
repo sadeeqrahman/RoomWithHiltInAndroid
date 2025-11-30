@@ -16,4 +16,7 @@ interface UserDao {
 
     @Query("DELETE FROM userTable WHERE id = :id")
     suspend fun deleteUser(id: Int)
+
+
+
 }

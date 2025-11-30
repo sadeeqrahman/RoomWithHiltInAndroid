@@ -12,7 +12,7 @@ import com.encoders.sadeeq.roomwithhiltinandroid.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), UserListInterface {
     private val roomDatabaseViewModel: RoomDatabaseViewModel by viewModels()
     private lateinit var userListAdapter: UserListAdapter
     private lateinit var _binding: ActivityMainBinding
@@ -21,11 +21,11 @@ class MainActivity : AppCompatActivity() {
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         _binding.userList.layoutManager = LinearLayoutManager(this)
-        userListAdapter = UserListAdapter(listOf())
+        userListAdapter = UserListAdapter(listOf(), this@MainActivity)
 
         lifecycleScope.launchWhenCreated {
             roomDatabaseViewModel.userList_.collect {
-                userListAdapter = UserListAdapter(it)
+                userListAdapter = UserListAdapter(it, this@MainActivity)
                 _binding.userList.adapter = userListAdapter
             }
         }
@@ -41,9 +41,12 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        _binding.deleteUser.setOnClickListener {
-            roomDatabaseViewModel.deleteUser(_binding.mobileNumber.text.toString().toInt())
-        }
+
+
+    }
+
+    override fun deleteUser(userEntity: UserEntity) {
+        roomDatabaseViewModel.deleteUser(userEntity.id)
 
     }
 }

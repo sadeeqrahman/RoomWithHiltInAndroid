@@ -6,36 +6,40 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.encoders.sadeeq.roomwithhiltinandroid.databinding.UserViewBinding
 
-class UserListAdapter(
-    val usersList: List<UserEntity>
-) : RecyclerView.Adapter<UserListAdapter.UserViewModel>(){
+class UserListAdapter(val userList: List<UserEntity>,
+    val userListInterface: UserListInterface)
+    : RecyclerView.Adapter<UserListAdapter.UserViewHolder>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): UserViewModel {
-      val binding = UserViewBinding.inflate(
-          LayoutInflater.from(parent.context),
-          parent,
-          false
-      )
-        return UserViewModel(binding)
+    ): UserViewHolder {
+       val binding = UserViewBinding.inflate(
+           LayoutInflater.from(parent.context),
+           parent,
+           false
+       )
+        return UserViewHolder(binding)
     }
 
     override fun onBindViewHolder(
-        holder: UserViewModel,
+        holder: UserViewHolder,
         position: Int
     ) {
-       val user = usersList[position]
+       val currentUser = userList[position]
         holder.binding.apply {
-            userName.text = user.userName
-            mobileNumber.text = user.mobileNumber
+            userName.text = currentUser.userName
+            mobileNumber.text = currentUser.mobileNumber
+        }
+        holder.itemView.setOnClickListener {
+            userListInterface.deleteUser(currentUser)
         }
     }
 
     override fun getItemCount(): Int {
-       return  usersList.size
+        return  userList.size
     }
 
-    inner class UserViewModel(val binding: UserViewBinding):
+
+    inner class  UserViewHolder(val binding: UserViewBinding):
             RecyclerView.ViewHolder(binding.root)
 }

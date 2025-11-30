@@ -36,12 +36,7 @@
             android:layout_height="wrap_content"
             android:text="Save User"
             android:id="@+id/saveUser"/>
-        <Button
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delete User"
-            android:id="@+id/deleteUser"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
