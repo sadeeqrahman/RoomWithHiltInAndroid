@@ -48,4 +48,16 @@ class RoomDatabaseViewModel
 
         }
     }
+
+    fun updateUser(userEntity: UserEntity) {
+        try {
+            viewModelScope.launch {
+                roomDatabaseRepository.updateUser(userEntity)
+                getUsers()
+            }
+        } catch (e: kotlin.Exception) {
+
+        }
+    }
+
 }

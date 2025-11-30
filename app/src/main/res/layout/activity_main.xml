@@ -36,6 +36,12 @@
             android:layout_height="wrap_content"
             android:text="Save User"
             android:id="@+id/saveUser"/>
+  <Button
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update User"
+            android:id="@+id/updateInfo"/>
 
 
         <androidx.recyclerview.widget.RecyclerView

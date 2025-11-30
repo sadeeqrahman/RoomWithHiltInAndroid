@@ -15,4 +15,9 @@ class RoomDatabaseRepository @Inject constructor(private val userDao: UserDao) {
     suspend fun getUsers(): List<UserEntity>{
         return userDao.usersList()
     }
+
+    suspend fun updateUser(userEntity: UserEntity){
+        userDao.updateUser(userEntity)
+
+    }
 }

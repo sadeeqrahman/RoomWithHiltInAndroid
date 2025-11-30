@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity(), UserListInterface {
     private val roomDatabaseViewModel: RoomDatabaseViewModel by viewModels()
     private lateinit var userListAdapter: UserListAdapter
     private lateinit var _binding: ActivityMainBinding
+    private lateinit var selectedUser: UserEntity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -41,12 +42,22 @@ class MainActivity : AppCompatActivity(), UserListInterface {
             )
         }
 
+        _binding.updateInfo.setOnClickListener {
+            roomDatabaseViewModel.updateUser(UserEntity(
+                id = selectedUser.id,
+                userName = _binding.userName.text.toString(),
+                mobileNumber = _binding.mobileNumber.text.toString()
+            ))
+        }
 
 
     }
 
     override fun deleteUser(userEntity: UserEntity) {
-        roomDatabaseViewModel.deleteUser(userEntity.id)
+//        roomDatabaseViewModel.deleteUser(userEntity.id)
+        selectedUser = userEntity
+        _binding.userName.setText(selectedUser.userName)
+        _binding.mobileNumber.setText(selectedUser.mobileNumber)
 
     }
 }
