@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface UserDao {
@@ -17,6 +18,7 @@ interface UserDao {
     @Query("DELETE FROM userTable WHERE id = :id")
     suspend fun deleteUser(id: Int)
 
-
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateUser(userEntity: UserEntity)
 
 }
