@@ -6,22 +6,27 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenCreated
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.encoders.sadeeq.roomwithhiltinandroid.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val roomDatabaseViewModel: RoomDatabaseViewModel by viewModels()
+    private lateinit var userListAdapter: UserListAdapter
     private lateinit var _binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        _binding.userList.layoutManager = LinearLayoutManager(this)
+        userListAdapter = UserListAdapter(listOf())
+
         lifecycleScope.launchWhenCreated {
             roomDatabaseViewModel.userList_.collect {
-                _binding.userlist.text = it.joinToString("\n") {
-                    "${it.userName} - ${it.mobileNumber}"
-                }
+                userListAdapter = UserListAdapter(it)
+                _binding.userList.adapter = userListAdapter
             }
         }
 
