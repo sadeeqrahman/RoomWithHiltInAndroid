@@ -1,5 +1,6 @@
 package com.encoders.sadeeq.roomwithhiltinandroid
 
+import androidx.lifecycle.LiveData
 import javax.inject.Inject
 
 class RoomDatabaseRepository @Inject constructor(private val userDao: UserDao) {
@@ -12,7 +13,7 @@ class RoomDatabaseRepository @Inject constructor(private val userDao: UserDao) {
         userDao.deleteUser(userId)
     }
 
-    suspend fun getUsers(): List<UserEntity>{
+     fun getUsers(): LiveData<List<UserEntity>>{
         return userDao.usersList()
     }
 

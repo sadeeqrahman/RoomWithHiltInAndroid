@@ -1,5 +1,7 @@
 package com.encoders.sadeeq.roomwithhiltinandroid
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,24 +16,29 @@ class RoomDatabaseViewModel
 @Inject constructor(private val roomDatabaseRepository: RoomDatabaseRepository) :
     ViewModel() {
 
-    val userList = MutableStateFlow<List<UserEntity>>(listOf())
-    val userList_: StateFlow<List<UserEntity>> get() = userList
+//    val userList = MutableStateFlow<List<UserEntity>>(listOf())
+//    val userList_: StateFlow<List<UserEntity>> get() = userList
 
-    fun getUsers() {
-        try {
-            viewModelScope.launch {
-                userList.value = roomDatabaseRepository.getUsers()
-            }
-        } catch (e: Exception) {
+//    val userList = MutableLiveData<List<UserEntity>>()
+//    val userList_: LiveData<List<UserEntity>> get() = userList
 
-        }
-    }
+        val userList : LiveData<List<UserEntity>> = roomDatabaseRepository.getUsers()
+
+//    fun getUsers() {
+//        try {
+//            viewModelScope.launch {
+//                userList.value = roomDatabaseRepository.getUsers()
+//            }
+//        } catch (e: Exception) {
+//
+//        }
+//    }
 
     fun insertUser(userEntity: UserEntity) {
         viewModelScope.launch {
             try {
                 roomDatabaseRepository.insertUser(userEntity)
-                getUsers()
+//                getUsers()
             } catch (e: kotlin.Exception) {
 
             }
@@ -42,7 +49,7 @@ class RoomDatabaseViewModel
         try {
             viewModelScope.launch {
                 roomDatabaseRepository.deleteUser(userId)
-                getUsers()
+//                getUsers()
             }
         } catch (e: kotlin.Exception) {
 
@@ -53,7 +60,7 @@ class RoomDatabaseViewModel
         try {
             viewModelScope.launch {
                 roomDatabaseRepository.updateUser(userEntity)
-                getUsers()
+//                getUsers()
             }
         } catch (e: kotlin.Exception) {
 

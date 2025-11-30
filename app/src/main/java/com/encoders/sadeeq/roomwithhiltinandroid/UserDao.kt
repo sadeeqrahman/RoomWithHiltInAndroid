@@ -1,5 +1,6 @@
 package com.encoders.sadeeq.roomwithhiltinandroid
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,7 +14,7 @@ interface UserDao {
     suspend fun insertUser(userEntity: UserEntity)
 
     @Query("SELECT * FROM userTable")
-    suspend fun usersList(): List<UserEntity>
+     fun usersList(): LiveData<List<UserEntity>>
 
     @Query("DELETE FROM userTable WHERE id = :id")
     suspend fun deleteUser(id: Int)

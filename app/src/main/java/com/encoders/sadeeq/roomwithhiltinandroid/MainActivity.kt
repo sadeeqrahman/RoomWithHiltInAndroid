@@ -5,9 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenCreated
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.encoders.sadeeq.roomwithhiltinandroid.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,14 +22,19 @@ class MainActivity : AppCompatActivity(), UserListInterface {
         _binding.userList.layoutManager = LinearLayoutManager(this)
         userListAdapter = UserListAdapter(listOf(), this@MainActivity)
 
-        lifecycleScope.launchWhenCreated {
-            roomDatabaseViewModel.userList_.collect {
-                userListAdapter = UserListAdapter(it, this@MainActivity)
-                _binding.userList.adapter = userListAdapter
-            }
+//        lifecycleScope.launchWhenCreated {
+//            roomDatabaseViewModel.userList_.collect {
+//                userListAdapter = UserListAdapter(it, this@MainActivity)
+//                _binding.userList.adapter = userListAdapter
+//            }
+//        }
+
+        roomDatabaseViewModel.userList.observe(this){
+            userListAdapter = UserListAdapter(it, this@MainActivity)
+            _binding.userList.adapter = userListAdapter
         }
 
-        roomDatabaseViewModel.getUsers()
+//        roomDatabaseViewModel.getUsers()
 
         _binding.saveUser.setOnClickListener {
             roomDatabaseViewModel.insertUser(
